@@ -1,0 +1,237 @@
+package com.example.bloclink.ui
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.bloclink.R
+import com.example.bloclink.ui.login.darkBlue
+import com.example.bloclink.ui.login.dmsans_light
+import com.example.bloclink.ui.login.lightBlue
+
+@Composable
+fun MyButtonWithLogo(
+    text: String,
+    onClick: () -> Unit,
+    containerColor: Color,
+    borderColor: Color,
+    iconColor: Color,
+    customWidth: Float,
+    iconId: Int
+) {
+    OutlinedButton(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = iconColor
+        ),
+
+        border = BorderStroke(1.dp, borderColor),
+        shape = RoundedCornerShape(5.dp),
+        modifier = Modifier
+            .padding(top = 8.dp, start = 0.dp, end = 0.dp)
+            .fillMaxWidth(customWidth)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = iconId),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth(0.25f)
+            )
+            Text(
+                text = text,
+                fontFamily = dmsans_light,
+                color = Color.White
+            )
+        }
+
+    }
+}
+
+// Imagen logo BlocLink.
+@Composable
+fun LogoBlocLink() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.bloclink_png_logo),
+            contentDescription = "BlocLink Logo",
+            modifier = Modifier
+                .padding(top = 30.dp, bottom = 25.dp)
+        )
+    }
+}
+
+// Email.
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EmailTextField() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 30.dp)
+    ) {
+        var email by remember { mutableStateOf("") }
+
+        TextField(
+            value = email,
+            onValueChange = { email = it },
+            label = { Text("Email") },
+            placeholder = {
+                Text(
+                    "example@email.com",
+                    color = darkBlue
+                )
+            },
+            modifier = Modifier
+                .align(Alignment.Center)
+
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors( // Experimental
+                containerColor = Color.Transparent,
+                cursorColor = lightBlue,
+                focusedTextColor = darkBlue,
+                unfocusedTextColor = darkBlue,
+                focusedLabelColor = lightBlue,
+                unfocusedLabelColor = lightBlue,
+                focusedIndicatorColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.LightGray,
+                focusedSupportingTextColor = Color.Red,
+                unfocusedSupportingTextColor = Color.Red
+            )
+        )
+
+    }
+}
+
+
+// Contraseña.
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordTextField() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 6.dp)
+    ) {
+        var password by rememberSaveable { mutableStateOf("") }
+        var passwordIsVisible by rememberSaveable { mutableStateOf(false) }
+        val icon = if (!passwordIsVisible) { // Variable que indica el estado del boolean.
+            painterResource(id = R.drawable.opened_eye)
+        } else {
+            painterResource(id = R.drawable.closed_eye)
+        }
+
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Password") },
+            placeholder = { Text("") },
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(top = 20.dp)
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors( // Experimental
+                containerColor = Color.Transparent,
+                cursorColor = lightBlue,
+                focusedTextColor = darkBlue,
+                unfocusedTextColor = darkBlue,
+                focusedLabelColor = lightBlue,
+                unfocusedLabelColor = lightBlue,
+                focusedIndicatorColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.LightGray,
+                focusedSupportingTextColor = Color.Red,
+                unfocusedSupportingTextColor = Color.Red
+            ),
+            visualTransformation = if (passwordIsVisible) { //  Si el boolean esta en true, las letras seran legibles, por el contrario, se va a aplicar una transformación.
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            },
+            trailingIcon = { // Botón para mostrar u ocultar los caracteres de la contraseña.
+                IconButton(onClick = { passwordIsVisible = !passwordIsVisible }) {
+                    Icon(
+                        painter = icon,
+                        contentDescription = "Show Password",
+                        modifier = Modifier.size(25.dp)
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun MyButton(
+    text: String,
+    onClick: () -> Unit,
+    containerColor: Color = lightBlue,
+    borderColor: Color = lightBlue,
+    textColor: Color = Color.White,
+    fontFamily: FontFamily? = null,
+    shapeCornerRadius: Float = 5f,
+    padding: Dp = 8.dp,
+    buttonWidthFraction: Float = 1f,
+) {
+    OutlinedButton(
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = textColor
+        ),
+        border = BorderStroke(1.dp, borderColor),
+        shape = RoundedCornerShape(shapeCornerRadius.dp),
+        modifier = Modifier
+            .padding(top = padding, start = padding, end = padding)
+            .fillMaxWidth(buttonWidthFraction)
+    ) {
+        Text(
+            text = text,
+            color = textColor,
+            fontSize = 14.sp,
+            fontFamily = fontFamily,
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+}

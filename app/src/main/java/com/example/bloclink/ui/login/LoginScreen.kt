@@ -41,6 +41,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.bloclink.R
 import com.example.bloclink.ui.EmailTextField
 import com.example.bloclink.ui.LogoBlocLink
@@ -61,7 +62,10 @@ val dmsans_regular = FontFamily(Font(R.font.dmsans_regular))
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    //navController: NavController
+) {
+
     //  Variables recuperar contraseña.
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -109,6 +113,7 @@ fun LogInTextField() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(bottom = 30.dp)
     ) {
         Text(
             text = "Log in",
@@ -254,7 +259,7 @@ fun YouDontHaveAccount() {
                     textColor = Color.White,
                     containerColor = lightBlue,
                     borderColor = lightBlue,
-                    onClick = {},
+                    onClick = { },
                     buttonWidthFraction = 5f,
                     padding = 0.dp,
                     shapeCornerRadius = 5f

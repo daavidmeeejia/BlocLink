@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,11 +34,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bloclink.R
 import com.example.bloclink.ui.login.darkBlue
+import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
 import com.example.bloclink.ui.login.lightBlue
 
@@ -103,6 +106,9 @@ fun LogoBlocLink() {
     }
 }
 
+// TextField genérico
+
+
 // Email.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -110,7 +116,6 @@ fun EmailTextField() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 30.dp)
     ) {
         var email by remember { mutableStateOf("") }
 
@@ -121,12 +126,12 @@ fun EmailTextField() {
             placeholder = {
                 Text(
                     "example@email.com",
-                    color = darkBlue
+                    color = darkBlue,
+                    fontFamily = dmsans_light
                 )
             },
             modifier = Modifier
                 .align(Alignment.Center)
-
                 .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors( // Experimental
                 containerColor = Color.Transparent,
@@ -141,7 +146,6 @@ fun EmailTextField() {
                 unfocusedSupportingTextColor = Color.Red
             )
         )
-
     }
 }
 
@@ -153,7 +157,7 @@ fun PasswordTextField() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 6.dp)
+            .padding(top = 20.dp)
     ) {
         var password by rememberSaveable { mutableStateOf("") }
         var passwordIsVisible by rememberSaveable { mutableStateOf(false) }
@@ -170,7 +174,6 @@ fun PasswordTextField() {
             placeholder = { Text("") },
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(top = 20.dp)
                 .fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors( // Experimental
                 containerColor = Color.Transparent,
@@ -232,6 +235,75 @@ fun MyButton(
             fontSize = 14.sp,
             fontFamily = fontFamily,
             modifier = Modifier.align(Alignment.CenterVertically)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyTextField(
+    iserror: Boolean,
+    supportingText: String,
+    data: String,
+    label: String,
+    onvaluechange: (String) -> Unit,
+    modifier: Modifier
+) {
+    TextField(
+        value = data,
+        onValueChange = onvaluechange,
+        label = {
+            Text(text = label)
+        },
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = TextFieldDefaults.textFieldColors( // Experimental
+            containerColor = Color.Transparent,
+            cursorColor = lightBlue,
+            focusedTextColor = darkBlue,
+            unfocusedTextColor = darkBlue,
+            focusedLabelColor = lightBlue,
+            unfocusedLabelColor = lightBlue,
+            focusedIndicatorColor = Color.LightGray,
+            unfocusedIndicatorColor = Color.LightGray,
+            focusedSupportingTextColor = Color.Red,
+            unfocusedSupportingTextColor = Color.Red
+        ),
+        supportingText = {
+            if (iserror) {
+                Text(text = supportingText)
+            }
+        }
+    )
+}
+
+@Composable
+fun MyCheckBox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically  // Centra la casilla de CheckBox con el texto.
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(
+                checkedColor = darkBlue,
+                uncheckedColor = darkBlue,
+                checkmarkColor = Color.White
+            )
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = label,
+            fontFamily = dmsans_extralight,
+            color = Color.DarkGray
         )
     }
 }

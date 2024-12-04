@@ -5,13 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,28 +15,34 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.bloclink.R
+import androidx.navigation.NavController
+import com.example.bloclink.ui.ConfirmPassword
 import com.example.bloclink.ui.EmailTextField
 import com.example.bloclink.ui.LogoBlocLink
 import com.example.bloclink.ui.MyButton
 import com.example.bloclink.ui.MyCheckBox
 import com.example.bloclink.ui.MyTextField
 import com.example.bloclink.ui.PasswordTextField
-import com.example.bloclink.ui.login.darkBlue
 import com.example.bloclink.ui.login.dmsans_light
 import com.example.bloclink.ui.login.dmsans_regular
 import com.example.bloclink.ui.login.lightBlue
 
 @Composable
-fun CreateAccountScreen(
-    //navController: NavController
-) {
+fun CreateAccountScreen(navController: NavController) {
+
+    var email by remember { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var confirmPassword by rememberSaveable { mutableStateOf("") }
+    var acceptPrivacyPolicy by remember { mutableStateOf(false) }
+    var acceptCookies by remember { mutableStateOf(false) }
+    var emailFailed by remember { mutableStateOf(false) }
+    var passwordFailed by rememberSaveable { mutableStateOf(false) }
+    var confirmPasswordFailed by rememberSaveable { mutableStateOf(false) }
+    var acceptPrivacyPolicyFailed by remember { mutableStateOf(false) }
+    var acceptCookiesFailed by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -64,13 +64,41 @@ fun CreateAccountScreen(
 
             SurnameTextField()
 
-            EmailTextField()
+            EmailTextField(email = email, onvaluechange = { email = it })
 
-            PasswordTextField()
+            PasswordTextField(password = password, onvaluechange = { password = it })
 
-            ConfirmPassword()
+            ConfirmPassword(
+                confirmPassword = confirmPassword,
+                onvaluechange = { confirmPassword = it })
 
-            TermsAndConditionsCheckBox()
+            TermsAndConditionsCheckBox(
+                onclick = {
+                    if (!isValidEmail(email)) {
+                        emailFailed = true
+                    }
+                    if (password.length < 6) {
+                        passwordFailed = true
+                    }
+                    if (password != confirmPassword) {
+                        confirmPasswordFailed = true
+                    }
+                    if (!acceptPrivacyPolicy) {
+                        acceptPrivacyPolicyFailed = true
+                    }
+                    if (!acceptCookies) {
+                        acceptCookiesFailed = true
+                    }
+
+                    if (!emailFailed && !passwordFailed && !confirmPasswordFailed && !acceptPrivacyPolicyFailed && !acceptCookiesFailed) {
+                        viewModel.createUserAccount(userinput, emailinput, passinput) {
+                            navController.navigate(MyScreenRoutes.PROFILE)
+                        }
+                    }
+                },
+                acceptPrivacyPolicy = acceptPrivacyPolicy,
+                acceptCookies = acceptCookies
+            )
 
         }
     }
@@ -98,6 +126,7 @@ fun NameTextField() {
 
     var passerror by rememberSaveable { mutableStateOf(false) }
     var nameInput by rememberSaveable { mutableStateOf("") }
+
 
     MyTextField(
         iserror = passerror,
@@ -127,18 +156,13 @@ fun SurnameTextField() {
     )
 }
 
-// Input de confirmar contraseña.
-@Composable
-fun ConfirmPassword() {
-   PasswordTextField()
-}
-
 // CheckBox de términos y condiciones, y cookies de uso.
 @Composable
-fun TermsAndConditionsCheckBox() {
-    var acceptPrivacyPolicy by remember { mutableStateOf(false) }
-    var acceptCookies by remember { mutableStateOf(false) }
-
+fun TermsAndConditionsCheckBox(
+    onclick : () -> Unit,
+    acceptPrivacyPolicy: Boolean,
+    acceptCookies: Boolean
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -176,7 +200,7 @@ fun TermsAndConditionsCheckBox() {
                 textColor = Color.White,
                 containerColor = lightBlue,
                 borderColor = lightBlue,
-                onClick = {},
+                onClick = onclick,
                 buttonWidthFraction = 5f,
                 padding = 0.dp,
                 shapeCornerRadius = 5f
@@ -188,6 +212,12 @@ fun TermsAndConditionsCheckBox() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewLoginScreen() {
-    CreateAccountScreen()
+fun PreviewLoginScreen(navController: NavController) {
+    CreateAccountScreen(navController)
+}
+
+
+fun isValidEmail(email: String): Boolean {
+    val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    return email.matches(emailRegex)
 }

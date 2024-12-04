@@ -79,7 +79,7 @@ fun LoginScreen(
 
             LogInTextField()
 
-            EmailTextField()
+            EmailTextField(email)
 
             PasswordTextField()
 

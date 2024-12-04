@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676526004736",
+    "project_id": "bloclinkdb",
+    "storage_bucket": "bloclinkdb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676526004736:android:b6b76b7c449cb3ec9696e5",
+        "android_client_info": {
+          "package_name": "com.example.bloclink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBseiS5dj7tl1hZPeFW_CroDBzdP-hsUNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

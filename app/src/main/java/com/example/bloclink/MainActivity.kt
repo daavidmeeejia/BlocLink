@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bloclink.ui.createAccount.CreateAccountScreen
 import com.example.bloclink.ui.login.LoginScreen
@@ -20,33 +22,28 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            /*NavHost(navController = navController, startDestination = "login", builder = {
-                composable("login"){
-                    LoginScreen(navController)
-                }
-                composable("createAccount"){
-                    CreateAccountScreen()
-                }
-            })*/
+
 
                 BlocLinkTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
+                        NavHost(navController = navController, startDestination = "login", builder = {
+                            composable("login"){
+                                LoginScreen(navController = navController)
+                            }
+                            composable("createAccount"){
+                                CreateAccountScreen(navController = navController)
+                            }
+                        })
 
-                        //LoginScreen()
+                        //LoginScreen(navController = navController)
 
-                        CreateAccountScreen(navController = navController)
+                        //CreateAccountScreen(navController = navController)
                     }
                 }
             }
         }
     }
 
-    @Composable
-    fun AppPreview() {
-        BlocLinkTheme {
-            LoginScreen()
-        }
-    }

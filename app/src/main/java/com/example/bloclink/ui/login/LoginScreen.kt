@@ -6,23 +6,37 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -34,12 +48,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.bloclink.R
 import com.example.bloclink.ui.EmailTextField
 import com.example.bloclink.ui.LogoBlocLink
 import com.example.bloclink.ui.MyButton
 import com.example.bloclink.ui.MyButtonWithLogo
+import com.example.bloclink.ui.MyTextField
 import com.example.bloclink.ui.PasswordTextField
+import com.example.bloclink.ui.createAccount.isValidEmail
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -55,12 +72,14 @@ val dmsans_regular = FontFamily(Font(R.font.dmsans_regular))
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    //navController: NavController
+    navController: NavController
 ) {
 
     //  Variables recuperar contraseña.
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
+    var email by remember { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -75,17 +94,16 @@ fun LoginScreen(
         ) {
             //  Llamadas a las funciones.
 
+
             LogoBlocLink()
 
             LogInTextField()
 
-            EmailTextField(email)
+            EmailTextField(email = email, onvaluechange = { email = it })
 
-            PasswordTextField()
+            PasswordTextField(password = password, onvaluechange = { password = it })
 
             RenovatePasswordButton(sheetState, scope)
-
-            //RenovatePasswordSheet(sheetState, scope)
 
             LogInButton()
 
@@ -93,11 +111,14 @@ fun LoginScreen(
 
             SocialMediaButtons()
 
-            YouDontHaveAccount()
+            YouDontHaveAccount(navController = navController)
+
+            if (sheetState.isVisible) {
+                RenovatePasswordSheet(sheetState, scope)
+            }
         }
     }
 }
-
 
 // Texto "Log in".
 @Composable
@@ -220,7 +241,7 @@ fun SocialMediaButtons() {
 
 // Opción de crear una cuenta.
 @Composable
-fun YouDontHaveAccount() {
+fun YouDontHaveAccount(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -258,7 +279,9 @@ fun YouDontHaveAccount() {
                     textColor = Color.White,
                     containerColor = lightBlue,
                     borderColor = lightBlue,
-                    onClick = { },
+                    onClick = {
+                        navController.navigate("createAccount")
+                    },
                     buttonWidthFraction = 5f,
                     padding = 0.dp,
                     shapeCornerRadius = 5f
@@ -281,7 +304,6 @@ fun RenovatePasswordButton(
         val context = LocalContext.current
         ClickableText(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(top = 12.dp),
             text = buildAnnotatedString {
                 withStyle(
@@ -312,11 +334,14 @@ fun RenovatePasswordButton(
     }
 }
 
-/*@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
-    val error = remember { mutableStateOf(false) }
-    val email = remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    var error by remember { mutableStateOf(false) }
+    var email by remember { mutableStateOf("") }
+
     ModalBottomSheet(
         modifier = Modifier.navigationBarsPadding(),
         onDismissRequest = {
@@ -324,37 +349,48 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
         },
         sheetState = sheetState,
         content = {
-            Textfield(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 30.dp),
-                iserror = error.value,
-                supportingText = "Enter a valid email",
-                data = email.value,
-                label = "Email",
-                onvaluechange = { email.value = it; error.value = false })
+                    .padding(start = 30.dp, end = 30.dp)
+            ) {
+                MyTextField(
+                    iserror = error,
+                    supportingText = "Please enter your email",
+                    data = email,
+                    label = "Email",
+                    onvaluechange = { email = it; error = false }
+
+                )
+            }
+
             Spacer(modifier = Modifier.height(12.dp))
-            OutlineButton(
-                text = "Reset Password",
-                onclick = {
-                    if (email.value.isNullOrBlank() || !isValidEmail(email.value)) {
-                        error.value = true
-                    }else{
-                        loginViewModel.resetpassword(email.value)
-                    }
-                },
-                containercolor = MaterialTheme.colorScheme.primary,
-                bordercolor = MaterialTheme.colorScheme.primary,
-                textcolor = Color.White
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp)
+            ) {
+                MyButton(
+                    fontFamily = dmsans_light,
+                    text = "Send new password",
+                    textColor = Color.White,
+                    containerColor = lightBlue,
+                    borderColor = lightBlue,
+                    onClick = {
+                        Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                        if (!isValidEmail(email)) {
+                            error = true
+                        }
+                    },
+                    buttonWidthFraction = 5f,
+                    padding = 0.dp,
+                    shapeCornerRadius = 5f
+                )
+            }
+
             Spacer(modifier = Modifier.height(50.dp))
 
         })
-}*/
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewLoginScreen() {
-    LoginScreen()
 }
+
+

@@ -1,15 +1,21 @@
 package com.example.bloclink.ui
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -21,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -29,18 +34,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.bloclink.R
 import com.example.bloclink.ui.login.darkBlue
 import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
+import com.example.bloclink.ui.login.dmsans_regular
 import com.example.bloclink.ui.login.lightBlue
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyButtonWithLogo(
@@ -106,8 +120,27 @@ fun LogoBlocLink() {
     }
 }
 
-// TextField genérico
-
+// Botón retroceder
+@Composable
+fun Popupbackstackbutton(navController: NavController) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+    ) {
+        IconButton(onClick = {
+            navController.popBackStack()
+        }) {
+            Icon(
+                imageVector = Icons.Filled.ArrowBack,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+    }
+}
 
 // Email.
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,7 +155,7 @@ fun EmailTextField(
     ) {
         TextField(
             value = email,
-            onValueChange = { onvaluechange },
+            onValueChange = onvaluechange,
             label = { Text("Email") },
             placeholder = {
                 Text(
@@ -172,7 +205,7 @@ fun PasswordTextField(
 
         TextField(
             value = password,
-            onValueChange = { onvaluechange },
+            onValueChange = onvaluechange,
             label = { Text("Password") },
             placeholder = { Text("") },
             modifier = Modifier
@@ -208,6 +241,7 @@ fun PasswordTextField(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConfirmPassword(
     confirmPassword: String,
@@ -227,7 +261,7 @@ fun ConfirmPassword(
 
         TextField(
             value = confirmPassword,
-            onValueChange = { onvaluechange },
+            onValueChange = onvaluechange,
             label = { Text("Confirm password") },
             placeholder = { Text("") },
             modifier = Modifier
@@ -304,8 +338,7 @@ fun MyTextField(
     supportingText: String,
     data: String,
     label: String,
-    onvaluechange: (String) -> Unit,
-    modifier: Modifier
+    onvaluechange: (String) -> Unit
 ) {
     TextField(
         value = data,
@@ -342,6 +375,7 @@ fun MyCheckBox(
     label: String,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -358,6 +392,34 @@ fun MyCheckBox(
             )
         )
         Spacer(modifier = Modifier.width(8.dp))
+        /*ClickableText(
+            modifier = Modifier
+                .padding(top = 12.dp),
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.DarkGray,
+                        textDecoration = TextDecoration.None,
+                        fontFamily = dmsans_extralight
+                    )
+                ) {
+                    append(label)
+                    addStringAnnotation(
+                        tag = "",
+                        annotation = "",
+                        start = 0,
+                        end = length
+                    )
+                }
+            },
+            onClick = {
+                Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+            },
+            style = TextStyle(
+                fontSize = 14.sp
+            )
+        )*/
+
         Text(
             text = label,
             fontFamily = dmsans_extralight,

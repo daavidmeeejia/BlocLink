@@ -2,9 +2,12 @@ package com.example.bloclink.ui.createAccount
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -26,6 +28,7 @@ import com.example.bloclink.ui.MyButton
 import com.example.bloclink.ui.MyCheckBox
 import com.example.bloclink.ui.MyTextField
 import com.example.bloclink.ui.PasswordTextField
+import com.example.bloclink.ui.Popupbackstackbutton
 import com.example.bloclink.ui.login.dmsans_light
 import com.example.bloclink.ui.login.dmsans_regular
 import com.example.bloclink.ui.login.lightBlue
@@ -44,62 +47,72 @@ fun CreateAccountScreen(navController: NavController) {
     var acceptPrivacyPolicyFailed by remember { mutableStateOf(false) }
     var acceptCookiesFailed by remember { mutableStateOf(false) }
 
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 20.dp, start = 40.dp, end = 40.dp)
+            .fillMaxWidth()
     ) {
-        Column(
+        /*Spacer(modifier = Modifier.fillMaxSize(0.05f))
+        Popupbackstackbutton(navController = navController)*/
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter), // Alinea la columna en la parte superior del Box.
-            horizontalAlignment = Alignment.CenterHorizontally // Centra los elementos dentro de la columna.
+                .fillMaxSize()
+                .padding(top = 20.dp, start = 40.dp, end = 40.dp)
         ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .align(Alignment.TopCenter), // Alinea la columna en la parte superior del Box.
+                horizontalAlignment = Alignment.CenterHorizontally // Centra los elementos dentro de la columna.
+            ) {
 
-            LogoBlocLink()
+                LogoBlocLink()
 
-            CreateAccountText()
+                CreateAccountText()
 
-            NameTextField()
+                NameTextField()
 
-            SurnameTextField()
+                SurnameTextField()
 
-            EmailTextField(email = email, onvaluechange = { email = it })
+                EmailTextField(email = email, onvaluechange = { email = it })
 
-            PasswordTextField(password = password, onvaluechange = { password = it })
+                PasswordTextField(password = password, onvaluechange = { password = it })
 
-            ConfirmPassword(
-                confirmPassword = confirmPassword,
-                onvaluechange = { confirmPassword = it })
+                ConfirmPassword(
+                    confirmPassword = confirmPassword,
+                    onvaluechange = { confirmPassword = it })
 
-            TermsAndConditionsCheckBox(
-                onclick = {
-                    if (!isValidEmail(email)) {
-                        emailFailed = true
-                    }
-                    if (password.length < 6) {
-                        passwordFailed = true
-                    }
-                    if (password != confirmPassword) {
-                        confirmPasswordFailed = true
-                    }
-                    if (!acceptPrivacyPolicy) {
-                        acceptPrivacyPolicyFailed = true
-                    }
-                    if (!acceptCookies) {
-                        acceptCookiesFailed = true
-                    }
-
-                    if (!emailFailed && !passwordFailed && !confirmPasswordFailed && !acceptPrivacyPolicyFailed && !acceptCookiesFailed) {
-                        viewModel.createUserAccount(userinput, emailinput, passinput) {
-                            navController.navigate(MyScreenRoutes.PROFILE)
+                TermsAndConditionsCheckBox(
+                    onclick = {
+                        if (!isValidEmail(email)) {
+                            emailFailed = true
                         }
-                    }
-                },
-                acceptPrivacyPolicy = acceptPrivacyPolicy,
-                acceptCookies = acceptCookies
-            )
+                        if (password.length < 6) {
+                            passwordFailed = true
+                        }
+                        if (password != confirmPassword) {
+                            confirmPasswordFailed = true
+                        }
+                        if (!acceptPrivacyPolicy) {
+                            acceptPrivacyPolicyFailed = true
+                        }
+                        if (!acceptCookies) {
+                            acceptCookiesFailed = true
+                        }
 
+                        if (!emailFailed && !passwordFailed && !confirmPasswordFailed && !acceptPrivacyPolicyFailed && !acceptCookiesFailed) {
+                            /*viewModel.createUserAccount(userinput, emailinput, passinput) {
+                                navController.navigate(MyScreenRoutes.PROFILE)
+                            }*/
+                        }
+                    },
+                    acceptPrivacyPolicy = acceptPrivacyPolicy,
+                    acceptCookies = acceptCookies,
+                    onvaluechange_privacy = { acceptPrivacyPolicy = !acceptPrivacyPolicy },
+                    onvaluechange_cookies = { acceptCookies = !acceptCookies }
+                )
+
+            }
         }
     }
 }
@@ -123,36 +136,30 @@ fun CreateAccountText() {
 // Input de nombre.
 @Composable
 fun NameTextField() {
-
-    var passerror by rememberSaveable { mutableStateOf(false) }
+    var nameError by rememberSaveable { mutableStateOf(false) }
     var nameInput by rememberSaveable { mutableStateOf("") }
 
-
     MyTextField(
-        iserror = passerror,
+        iserror = nameError,
         supportingText = "",
         data = nameInput,
         label = "Name",
-        onvaluechange = { nameInput = it },
-        modifier = Modifier
-            .padding(bottom = 30.dp)
+        onvaluechange = { nameInput = it }
     )
 }
 
 // Input de apellido.
 @Composable
 fun SurnameTextField() {
-    var passerror by rememberSaveable { mutableStateOf(false) }
+    var surnameError by rememberSaveable { mutableStateOf(false) }
     var surnameInput by rememberSaveable { mutableStateOf("") }
 
     MyTextField(
-        iserror = passerror,
+        iserror = surnameError,
         supportingText = "",
         data = surnameInput,
         label = "Surname",
-        onvaluechange = { surnameInput = it },
-        modifier = Modifier
-            .padding(bottom = 30.dp)
+        onvaluechange = { surnameInput = it }
     )
 }
 
@@ -161,6 +168,8 @@ fun SurnameTextField() {
 fun TermsAndConditionsCheckBox(
     onclick : () -> Unit,
     acceptPrivacyPolicy: Boolean,
+    onvaluechange_privacy: (Boolean) -> Unit,
+    onvaluechange_cookies: (Boolean) -> Unit,
     acceptCookies: Boolean
 ) {
     Column(
@@ -174,7 +183,7 @@ fun TermsAndConditionsCheckBox(
         ) {
             MyCheckBox(
                 checked = acceptPrivacyPolicy,
-                onCheckedChange = { acceptPrivacyPolicy = it },
+                onCheckedChange = onvaluechange_privacy ,
                 label = "I acknowledge that I have read and agree to the Privacy Policy, Terms and Conditions."
             )
         }
@@ -185,14 +194,14 @@ fun TermsAndConditionsCheckBox(
         ) {
             MyCheckBox(
                 checked = acceptCookies,
-                onCheckedChange = { acceptCookies = it },
+                onCheckedChange = onvaluechange_cookies,
                 label = "I consent to the use of cookies for enhancing my experience, as described in the policy."
             )
         }
         Box(    // Botón de crear cuenta.
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 30.dp)
+                .padding(top = 30.dp, bottom = 30.dp)
         ) {
             MyButton(
                 fontFamily = dmsans_light,
@@ -209,13 +218,11 @@ fun TermsAndConditionsCheckBox(
     }
 }
 
-
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun PreviewLoginScreen(navController: NavController) {
     CreateAccountScreen(navController)
 }
-
 
 fun isValidEmail(email: String): Boolean {
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()

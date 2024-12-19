@@ -14,19 +14,16 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -45,11 +41,11 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bloclink.R
+import com.example.bloclink.model.db.LoginViewModel
 import com.example.bloclink.ui.EmailTextField
 import com.example.bloclink.ui.LogoBlocLink
 import com.example.bloclink.ui.MyButton
@@ -80,6 +76,7 @@ fun LoginScreen(
     val scope = rememberCoroutineScope()
     var email by remember { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
+    var failed = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -94,18 +91,33 @@ fun LoginScreen(
         ) {
             //  Llamadas a las funciones.
 
-
             LogoBlocLink()
 
             LogInTextField()
 
-            EmailTextField(email = email, onvaluechange = { email = it })
+            EmailTextField(
+                email = email,
+                onvaluechange = { email = it; failed.value = false },
+                emailFailed = failed,
+                supportingText = "",
+            )
 
-            PasswordTextField(password = password, onvaluechange = { password = it })
+            PasswordTextField(
+                password = password,
+                onvaluechange = { password = it; failed.value = false },
+                passwordFailed = failed,
+                supportingText = "Email and/or Password are incorrect."
+            )
 
             RenovatePasswordButton(sheetState, scope)
 
-            LogInButton()
+            LogInButton(
+                navController = navController,
+                email = email,
+                password = password,
+                viewModel = LoginViewModel(),
+                failed = failed
+            )
 
             SocialMediaTextField()
 
@@ -136,25 +148,33 @@ fun LogInTextField() {
     }
 }
 
-
 // Botón Log in.
 @Composable
-fun LogInButton() {
+fun LogInButton(
+    viewModel: LoginViewModel,
+    email: String,
+    password: String,
+    failed: MutableState<Boolean>,
+    navController: NavController
+) {
     val context = LocalContext.current
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 50.dp)
+            .padding(top = 40.dp)
     ) {
         OutlinedButton(
             onClick = {
-
-                /*if (userinput == "pitopato" && passinput == "1234") { //Si correo y contraseña no estan vacio
-                    Toast.makeText("Login successuful", context, Toast.LENGTH_LONG).show()
+                if (email != "" && password != "") { //Si correo y contraseña no estan vacio
+                    viewModel.signIn(email, password, profile = {
+                        navController.navigate("home")
+                    }, onError = {
+                        Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+                        failed.value = true
+                    })
                 } else {
-                    error = true //Si correo y contraseña estan vacios ponemos el boolean error en true
-
-                },*/
+                    failed.value = true
+                }
             },
             enabled = true,
             colors = ButtonDefaults.buttonColors(
@@ -291,6 +311,7 @@ fun YouDontHaveAccount(navController: NavController) {
     }
 }
 
+// Botón para recuperar contraseña.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RenovatePasswordButton(
@@ -334,6 +355,7 @@ fun RenovatePasswordButton(
     }
 }
 
+// Modal Bottom Sheet para recuperar contraseña.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
@@ -354,13 +376,13 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
                     .fillMaxWidth()
                     .padding(start = 30.dp, end = 30.dp)
             ) {
+
                 MyTextField(
-                    iserror = error,
+                    error = error,
                     supportingText = "Please enter your email",
                     data = email,
                     label = "Email",
-                    onvaluechange = { email = it; error = false }
-
+                    onvaluechange = { email = it; error = false },
                 )
             }
 
@@ -387,9 +409,7 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
                     shapeCornerRadius = 5f
                 )
             }
-
             Spacer(modifier = Modifier.height(50.dp))
-
         })
 }
 

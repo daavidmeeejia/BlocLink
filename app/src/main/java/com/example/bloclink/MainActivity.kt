@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bloclink.ui.createAccount.CreateAccountScreen
+import com.example.bloclink.ui.home.HomeScreen
 import com.example.bloclink.ui.login.LoginScreen
 import com.example.bloclink.ui.theme.BlocLinkTheme
 
@@ -36,11 +37,10 @@ class MainActivity : ComponentActivity() {
                             composable("createAccount"){
                                 CreateAccountScreen(navController = navController)
                             }
+                            composable("home"){
+                                HomeScreen(navController = navController)
+                            }
                         })
-
-                        //LoginScreen(navController = navController)
-
-                        //CreateAccountScreen(navController = navController)
                     }
                 }
             }

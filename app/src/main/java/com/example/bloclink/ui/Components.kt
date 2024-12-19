@@ -1,10 +1,11 @@
 package com.example.bloclink.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
@@ -22,11 +22,13 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -36,14 +38,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +53,6 @@ import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
 import com.example.bloclink.ui.login.dmsans_regular
 import com.example.bloclink.ui.login.lightBlue
-import kotlinx.coroutines.launch
 
 @Composable
 fun MyButtonWithLogo(
@@ -120,6 +118,20 @@ fun LogoBlocLink() {
     }
 }
 
+// Imagen logo BlocLink sin padding.
+@Composable
+fun LogoBlocLinkWithoutPadding() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.bloclink_png_logo),
+            contentDescription = "BlocLink Logo",
+        )
+    }
+}
+
 // Botón retroceder
 @Composable
 fun Popupbackstackbutton(navController: NavController) {
@@ -147,11 +159,14 @@ fun Popupbackstackbutton(navController: NavController) {
 @Composable
 fun EmailTextField(
     email: String,
-    onvaluechange: (String) -> Unit
-){
+    onvaluechange: (String) -> Unit,
+    emailFailed: MutableState<Boolean>,
+    supportingText: String,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(top = 10.dp)
     ) {
         TextField(
             value = email,
@@ -163,6 +178,13 @@ fun EmailTextField(
                     color = darkBlue,
                     fontFamily = dmsans_light
                 )
+            },
+            isError = emailFailed.value,
+            singleLine = true,
+            supportingText = {
+                if (emailFailed.value) {
+                    Text(supportingText)
+                }
             },
             modifier = Modifier
                 .align(Alignment.Center)
@@ -177,7 +199,8 @@ fun EmailTextField(
                 focusedIndicatorColor = Color.LightGray,
                 unfocusedIndicatorColor = Color.LightGray,
                 focusedSupportingTextColor = Color.Red,
-                unfocusedSupportingTextColor = Color.Red
+                unfocusedSupportingTextColor = Color.Red,
+                errorContainerColor = Color.Transparent
             )
         )
     }
@@ -189,12 +212,14 @@ fun EmailTextField(
 @Composable
 fun PasswordTextField(
     password: String,
-    onvaluechange: (String) -> Unit
+    onvaluechange: (String) -> Unit,
+    passwordFailed: MutableState<Boolean>,
+    supportingText: String
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp)
+            .padding(top = 10.dp)
     ) {
         var passwordIsVisible by rememberSaveable { mutableStateOf(false) }
         val icon = if (!passwordIsVisible) { // Variable que indica el estado del boolean.
@@ -208,6 +233,13 @@ fun PasswordTextField(
             onValueChange = onvaluechange,
             label = { Text("Password") },
             placeholder = { Text("") },
+            isError = passwordFailed.value,
+            singleLine = true,
+            supportingText = {
+                if (passwordFailed.value) {
+                    Text(text = supportingText)
+                }
+            },
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth(),
@@ -221,7 +253,9 @@ fun PasswordTextField(
                 focusedIndicatorColor = Color.LightGray,
                 unfocusedIndicatorColor = Color.LightGray,
                 focusedSupportingTextColor = Color.Red,
-                unfocusedSupportingTextColor = Color.Red
+                unfocusedSupportingTextColor = Color.Red,
+                errorContainerColor = Color.Transparent,
+                errorTrailingIconColor = Color.Black
             ),
             visualTransformation = if (passwordIsVisible) { //  Si el boolean esta en true, las letras seran legibles, por el contrario, se va a aplicar una transformación.
                 VisualTransformation.None
@@ -245,12 +279,13 @@ fun PasswordTextField(
 @Composable
 fun ConfirmPassword(
     confirmPassword: String,
-    onvaluechange: (String) -> Unit
+    onvaluechange: (String) -> Unit,
+    confirmPasswordFailed: Boolean
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 20.dp)
+            .padding(top = 10.dp)
     ) {
         var passwordIsVisible by rememberSaveable { mutableStateOf(false) }
         val icon = if (!passwordIsVisible) { // Variable que indica el estado del boolean.
@@ -264,6 +299,13 @@ fun ConfirmPassword(
             onValueChange = onvaluechange,
             label = { Text("Confirm password") },
             placeholder = { Text("") },
+            isError = confirmPasswordFailed,
+            singleLine = true,
+            supportingText = {
+                if (confirmPasswordFailed) {
+                    Text(text = "Passwords do not match.")
+                }
+            },
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth(),
@@ -277,7 +319,9 @@ fun ConfirmPassword(
                 focusedIndicatorColor = Color.LightGray,
                 unfocusedIndicatorColor = Color.LightGray,
                 focusedSupportingTextColor = Color.Red,
-                unfocusedSupportingTextColor = Color.Red
+                unfocusedSupportingTextColor = Color.Red,
+                errorContainerColor = Color.Transparent,
+                errorTrailingIconColor = Color.Black
             ),
             visualTransformation = if (passwordIsVisible) { //  Si el boolean esta en true, las letras seran legibles, por el contrario, se va a aplicar una transformación.
                 VisualTransformation.None
@@ -334,7 +378,7 @@ fun MyButton(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTextField(
-    iserror: Boolean,
+    error: Boolean,
     supportingText: String,
     data: String,
     label: String,
@@ -343,12 +387,14 @@ fun MyTextField(
     TextField(
         value = data,
         onValueChange = onvaluechange,
+        singleLine = true,
         label = {
             Text(text = label)
         },
         modifier = Modifier
             .fillMaxWidth(),
-        colors = TextFieldDefaults.textFieldColors( // Experimental
+        colors = TextFieldDefaults.textFieldColors(
+            // Experimental
             containerColor = Color.Transparent,
             cursorColor = lightBlue,
             focusedTextColor = darkBlue,
@@ -358,10 +404,12 @@ fun MyTextField(
             focusedIndicatorColor = Color.LightGray,
             unfocusedIndicatorColor = Color.LightGray,
             focusedSupportingTextColor = Color.Red,
-            unfocusedSupportingTextColor = Color.Red
+            unfocusedSupportingTextColor = Color.Red,
+            errorContainerColor = Color.Transparent,
         ),
+        isError = error,
         supportingText = {
-            if (iserror) {
+            if (error) {
                 Text(text = supportingText)
             }
         }
@@ -370,10 +418,12 @@ fun MyTextField(
 
 @Composable
 fun MyCheckBox(
-    checked: Boolean,
+    checked: MutableState<Boolean>,
     onCheckedChange: (Boolean) -> Unit,
     label: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    errortext: String,
+    error: MutableState<Boolean>
 ) {
     val context = LocalContext.current
     Row(
@@ -383,7 +433,7 @@ fun MyCheckBox(
         verticalAlignment = Alignment.CenterVertically  // Centra la casilla de CheckBox con el texto.
     ) {
         Checkbox(
-            checked = checked,
+            checked = checked.value,
             onCheckedChange = onCheckedChange,
             colors = CheckboxDefaults.colors(
                 checkedColor = darkBlue,
@@ -419,11 +469,74 @@ fun MyCheckBox(
                 fontSize = 14.sp
             )
         )*/
+        Column {
+            Text(
+                text = label,
+                fontFamily = dmsans_extralight,
+                color = Color.DarkGray
+            )
+            if (error.value) {
+                Text(
+                    text = errortext,
+                    style = TextStyle(color = MaterialTheme.colorScheme.error, fontSize = 12.sp)
+                )
+            }
+        }
+    }
+}
 
+@Composable
+fun BlocLinkHeader(navController: NavController) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.LightGray)
+            .height(130.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(70.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(start = 10.dp, top = 20.dp)
+            ){
+                IconButton(onClick = { /* Acción del menú desplegable */ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.menu),
+                        contentDescription = "Menu",
+                        modifier = Modifier
+                            .size(22.dp)
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .size(150.dp)
+                    .padding(top = 30.dp)
+            ){
+                LogoBlocLinkWithoutPadding()
+            }
+        }
+    }
+}
+
+@Composable
+fun BlocLinkSlogan(){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(30.dp)
+    ) {
         Text(
-            text = label,
+            text = "Conexiones virtuales, resultados reales",
+            fontSize = 13.sp,
             fontFamily = dmsans_extralight,
-            color = Color.DarkGray
+            fontStyle = FontStyle.Italic,
+            modifier = Modifier
+                .align(Alignment.Center)
         )
     }
 }

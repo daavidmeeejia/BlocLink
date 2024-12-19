@@ -485,12 +485,14 @@ fun MyCheckBox(
     }
 }
 
+var BLLightGray = Color(0xFFE1E1E1) // Gris claro
+
 @Composable
 fun BlocLinkHeader(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.LightGray)
+            .background(BLLightGray)
             .height(130.dp)
     ) {
         Row(
@@ -528,10 +530,10 @@ fun BlocLinkSlogan(){
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(30.dp)
+            .height(26.dp)
     ) {
         Text(
-            text = "Conexiones virtuales, resultados reales",
+            text = "\" Conexiones virtuales, resultados reales \"",
             fontSize = 13.sp,
             fontFamily = dmsans_extralight,
             fontStyle = FontStyle.Italic,

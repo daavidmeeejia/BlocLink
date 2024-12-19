@@ -382,7 +382,7 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
                     supportingText = "Please enter your email",
                     data = email,
                     label = "Email",
-                    onvaluechange = { email = it; error = false },
+                    onvaluechange = { email = it; error = false }
                 )
             }
 

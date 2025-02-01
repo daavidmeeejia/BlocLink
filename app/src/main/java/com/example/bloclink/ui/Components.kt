@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -51,7 +52,6 @@ import com.example.bloclink.R
 import com.example.bloclink.ui.login.darkBlue
 import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
-import com.example.bloclink.ui.login.dmsans_regular
 import com.example.bloclink.ui.login.lightBlue
 
 @Composable
@@ -504,7 +504,7 @@ fun BlocLinkHeader(navController: NavController) {
             Box(
                 modifier = Modifier
                     .padding(start = 10.dp, top = 20.dp)
-            ){
+            ) {
                 IconButton(onClick = { /* Acción del menú desplegable */ }) {
                     Icon(
                         painter = painterResource(id = R.drawable.menu),
@@ -518,15 +518,29 @@ fun BlocLinkHeader(navController: NavController) {
                 modifier = Modifier
                     .size(150.dp)
                     .padding(top = 30.dp)
-            ){
+            ) {
                 LogoBlocLinkWithoutPadding()
+            }
+            Box(
+                modifier = Modifier
+                    .padding(end = 10.dp, top = 20.dp)
+            ) {
+                IconButton(onClick = { /* Acción del menú de perfil */ }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.profile),
+                        contentDescription = "User",
+                        tint = Color.Unspecified, // Deja ver el color original del ícono.
+                        modifier = Modifier
+                            .size(26.dp)
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun BlocLinkSlogan(){
+fun BlocLinkSlogan() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -539,6 +553,71 @@ fun BlocLinkSlogan(){
             fontStyle = FontStyle.Italic,
             modifier = Modifier
                 .align(Alignment.Center)
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SearchTextField(
+    onSearch: (String) -> Unit
+) {
+
+    var BLLightGray = Color(0xFFE1E1E1) // Gris claro
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 30.dp, start = 26.dp, end = 26.dp)
+            .height(56.dp) // Aumenta el tamaño del TextField para evitar cortes (tamaño estandar)
+    ) {
+        var query by remember { mutableStateOf("") }
+
+        TextField(
+            value = query,
+            onValueChange = { query = it },
+            singleLine = true,
+            placeholder = {
+                Text(
+                    text = "Search something...",
+                    color = Color.Gray,
+                    fontFamily = dmsans_light,
+                    fontSize = 16.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    //textAlign = TextAlign.Center // Mantén alineado al escribir
+                )
+            },
+            leadingIcon = {
+                Box(
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                ) {
+                    IconButton(
+                        onClick = { onSearch(query) },
+                        modifier = Modifier.size(40.dp) // Aumenta el tamaño del ícono
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.magnifier),
+                            contentDescription = "Buscar",
+                            tint = darkBlue,
+                            modifier = Modifier
+                                .size(26.dp) // Tamaño del ícono dentro del botón
+                        )
+                    }
+                }
+            },
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                containerColor = BLLightGray, // Color de fondo del TextField
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedTextColor = darkBlue,
+                unfocusedTextColor = darkBlue,
+                cursorColor = darkBlue
+
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
         )
     }
 }

@@ -93,7 +93,7 @@ fun LoginScreen(
 
             LogoBlocLink()
 
-            LogInTextField()
+            LogInText()
 
             EmailTextField(
                 email = email,
@@ -119,7 +119,7 @@ fun LoginScreen(
                 failed = failed
             )
 
-            SocialMediaTextField()
+            SocialMediaText()
 
             SocialMediaButtons()
 
@@ -134,7 +134,7 @@ fun LoginScreen(
 
 // Texto "Log in".
 @Composable
-fun LogInTextField() {
+fun LogInText() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -197,7 +197,7 @@ fun LogInButton(
 
 // Texto "Continue with social media".
 @Composable
-fun SocialMediaTextField() {
+fun SocialMediaText() {
     Box(
         modifier = Modifier
             .fillMaxWidth()

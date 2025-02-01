@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
-    private val _loading = MutableLiveData(false)
+    private val loading = MutableLiveData(false)
 
     fun signIn(email: String, password: String, profile: () -> Unit, onError: () -> Unit) =
         viewModelScope.launch {
@@ -43,8 +43,8 @@ class LoginViewModel : ViewModel() {
         sameemail: () -> Unit
     ){
         var issuccessfull = false
-        if (_loading.value == false) {
-            _loading.value = true
+        if (loading.value == false) {
+            loading.value = true
             auth.createUserWithEmailAndPassword(email.trim(), password.trim())
                 .addOnCompleteListener { task ->
                     try {
@@ -66,7 +66,7 @@ class LoginViewModel : ViewModel() {
                             //Toast.makeText(context, "Email already in use", Toast.LENGTH_SHORT).show()
                        }
                     }
-                    _loading.value = false
+                    loading.value = false
                 }
         }
     }

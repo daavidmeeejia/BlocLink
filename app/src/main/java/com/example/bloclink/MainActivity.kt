@@ -12,10 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.bloclink.ui.chat.ChatScreen
 import com.example.bloclink.ui.createAccount.CreateAccountScreen
 import com.example.bloclink.ui.home.HomeScreen
 import com.example.bloclink.ui.login.LoginScreen
 import com.example.bloclink.ui.theme.BlocLinkTheme
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +43,9 @@ class MainActivity : ComponentActivity() {
                             }
                             composable("home"){
                                 HomeScreen(navController = navController)
+                            }
+                            composable("chat"){
+                                Firebase.auth.currentUser!!.email?.let { it1 -> ChatScreen(userId = it1, navController = navController) }
                             }
                         })
                     }

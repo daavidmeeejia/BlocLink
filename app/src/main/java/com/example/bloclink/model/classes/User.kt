@@ -1,7 +1,10 @@
 package com.example.bloclink.model.classes
 
 data class User(
-    val userId: String = "", val name: String = "", val surname: String = "", val email: String = ""
+    val userId: String = "",
+    val name: String = "",
+    val surname: String = "",
+    val email: String = ""
 ) {
     fun toMap(): MutableMap<String, Any> {
         return mutableMapOf(

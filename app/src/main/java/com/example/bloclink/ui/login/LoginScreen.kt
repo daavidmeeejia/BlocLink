@@ -141,7 +141,7 @@ fun LogInText() {
             .padding(bottom = 30.dp)
     ) {
         Text(
-            text = "Log in",
+            text = "Iniciar sesión",
             fontSize = 24.sp,
             fontFamily = dmsans_regular,
         )

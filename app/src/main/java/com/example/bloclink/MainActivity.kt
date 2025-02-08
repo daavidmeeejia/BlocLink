@@ -29,28 +29,33 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
 
-                BlocLinkTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        NavHost(navController = navController, startDestination = "login", builder = {
-                            composable("login"){
-                                LoginScreen(navController = navController)
+            BlocLinkTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavHost(navController = navController, startDestination = "login", builder = {
+                        composable("login") {
+                            LoginScreen(navController = navController)
+                        }
+                        composable("createAccount") {
+                            CreateAccountScreen(navController = navController)
+                        }
+                        composable("home") {
+                            HomeScreen(navController = navController)
+                        }
+                        composable("chat") {
+                            Firebase.auth.currentUser!!.email?.let { it1 ->
+                                ChatScreen(
+                                    userId = it1,
+                                    navController = navController
+                                )
                             }
-                            composable("createAccount"){
-                                CreateAccountScreen(navController = navController)
-                            }
-                            composable("home"){
-                                HomeScreen(navController = navController)
-                            }
-                            composable("chat"){
-                                Firebase.auth.currentUser!!.email?.let { it1 -> ChatScreen(userId = it1, navController = navController) }
-                            }
-                        })
-                    }
+                        }
+                    })
                 }
             }
         }
     }
+}
 

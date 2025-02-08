@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -36,6 +37,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -102,7 +107,6 @@ fun MyButtonWithLogo(
     }
 }
 
-// Imagen logo BlocLink.
 @Composable
 fun LogoBlocLink() {
     Box(
@@ -118,7 +122,6 @@ fun LogoBlocLink() {
     }
 }
 
-// Imagen logo BlocLink sin padding.
 @Composable
 fun LogoBlocLinkWithoutPadding() {
     Box(
@@ -132,7 +135,6 @@ fun LogoBlocLinkWithoutPadding() {
     }
 }
 
-// Botón retroceder
 @Composable
 fun Popupbackstackbutton(navController: NavController) {
     Row(
@@ -154,7 +156,6 @@ fun Popupbackstackbutton(navController: NavController) {
     }
 }
 
-// Email.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailTextField(
@@ -206,8 +207,6 @@ fun EmailTextField(
     }
 }
 
-
-// Contraseña.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
@@ -619,5 +618,61 @@ fun SearchTextField(
             modifier = Modifier
                 .fillMaxWidth()
         )
+    }
+}
+
+@Composable
+fun Modifier.simpleHorizontalScrollbar(
+    state: LazyListState,
+    height: Float = 12f,
+    backgroundColor: Color = Color(0xFFE5E5E5),
+    color: Color = darkBlue
+): Modifier {
+    return drawWithContent {
+        drawContent()
+
+        val layoutInfo = state.layoutInfo
+        val firstVisibleItem = layoutInfo.visibleItemsInfo.firstOrNull()
+
+        if (firstVisibleItem != null) {
+            val totalItems = layoutInfo.totalItemsCount
+            val visibleItems = layoutInfo.visibleItemsInfo.size
+            val scrollableItems = totalItems - visibleItems
+
+            if (scrollableItems > 0) {
+                // Obtener información del desplazamiento total en píxeles
+                val totalScrollRange = state.layoutInfo.viewportSize.width.toFloat()
+                val totalListSize = layoutInfo.totalItemsCount * firstVisibleItem.size.toFloat()
+                val currentScrollOffset =
+                    (state.firstVisibleItemIndex * firstVisibleItem.size) + state.firstVisibleItemScrollOffset
+
+                // Calcular el progreso basado en píxeles en lugar del índice de los elementos
+                val scrollProgress = currentScrollOffset / (totalListSize - totalScrollRange)
+
+                // Calcular el ancho de la barra de desplazamiento
+                val scrollBarWidth = (this.size.width * totalScrollRange) / totalListSize
+
+                // Calcular la posición X suavizada
+                val offsetX = scrollProgress * (this.size.width - scrollBarWidth)
+
+                // Dibujar fondo de la barra de desplazamiento
+                drawRoundRect(
+                    cornerRadius = CornerRadius(x = 10f, y = 10f),
+                    color = backgroundColor,
+                    topLeft = Offset(x = 0f, y = this.size.height + 50),
+                    size = Size(this.size.width, height),
+                    alpha = 1f
+                )
+
+                // Dibujar la barra de desplazamiento
+                drawRoundRect(
+                    cornerRadius = CornerRadius(x = 10f, y = 10f),
+                    color = color,
+                    topLeft = Offset(x = offsetX, y = this.size.height + 50),
+                    size = Size(scrollBarWidth, height),
+                    alpha = 1f
+                )
+            }
+        }
     }
 }

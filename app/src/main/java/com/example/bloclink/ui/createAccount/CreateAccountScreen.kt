@@ -85,7 +85,7 @@ fun CreateAccountScreen(
                 NameTextField(
                     name = name,
                     nameError = nameFailed,
-                    onvaluechange = { name = it ; nameFailed = false}
+                    onvaluechange = { name = it ; nameFailed = false }
                 )
 
                 SurnameTextField(

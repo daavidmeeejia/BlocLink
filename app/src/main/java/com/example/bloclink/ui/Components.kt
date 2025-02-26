@@ -3,20 +3,26 @@ package com.example.bloclink.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
@@ -37,6 +43,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
@@ -54,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bloclink.R
+import com.example.bloclink.model.classes.Company
 import com.example.bloclink.ui.login.darkBlue
 import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
@@ -136,23 +144,49 @@ fun LogoBlocLinkWithoutPadding() {
 }
 
 @Composable
-fun Popupbackstackbutton(navController: NavController) {
+fun ChatHeader(navController: NavController, company: Company) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(130.dp)
+            .background(Color.LightGray)
+            .padding(top = 30.dp)
+
+
     ) {
         IconButton(onClick = {
             navController.popBackStack()
         }) {
             Icon(
-                imageVector = Icons.Filled.ArrowBack,
-                contentDescription = null,
-                tint = Color.Black
+                painter = painterResource(id = R.drawable.back),
+                contentDescription = "Atras",
+                tint = Color.Black,
+                modifier = Modifier
+                    .size(22.dp)
             )
         }
+        Box(
+            modifier = Modifier
+                .size(60.dp)
+
+                .clip(shape = CircleShape)
+        ) {
+            Image(
+                painter = painterResource(id = company.image.toString().toInt()),
+                contentDescription = company.companyName,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .clip(shape = CircleShape)
+                    .background(color = Color.White)
+            )
+        }
+        Text(
+            text = company.companyName,
+            modifier = Modifier.padding(start = 8.dp),
+            fontSize = 16.sp
+        )
     }
 }
 
@@ -640,22 +674,22 @@ fun Modifier.simpleHorizontalScrollbar(
             val scrollableItems = totalItems - visibleItems
 
             if (scrollableItems > 0) {
-                // Obtener información del desplazamiento total en píxeles
+                // Información del desplazamiento en píxeles.
                 val totalScrollRange = state.layoutInfo.viewportSize.width.toFloat()
                 val totalListSize = layoutInfo.totalItemsCount * firstVisibleItem.size.toFloat()
                 val currentScrollOffset =
                     (state.firstVisibleItemIndex * firstVisibleItem.size) + state.firstVisibleItemScrollOffset
 
-                // Calcular el progreso basado en píxeles en lugar del índice de los elementos
+                // Calcular el progreso basado en píxeles.
                 val scrollProgress = currentScrollOffset / (totalListSize - totalScrollRange)
 
-                // Calcular el ancho de la barra de desplazamiento
+                // Calcular el ancho de la barra de desplazamiento.
                 val scrollBarWidth = (this.size.width * totalScrollRange) / totalListSize
 
-                // Calcular la posición X suavizada
+                // Posición X.
                 val offsetX = scrollProgress * (this.size.width - scrollBarWidth)
 
-                // Dibujar fondo de la barra de desplazamiento
+                // Dibuja fondo de la barra de desplazamiento.
                 drawRoundRect(
                     cornerRadius = CornerRadius(x = 10f, y = 10f),
                     color = backgroundColor,
@@ -664,7 +698,7 @@ fun Modifier.simpleHorizontalScrollbar(
                     alpha = 1f
                 )
 
-                // Dibujar la barra de desplazamiento
+                // Dibuja la barra de desplazamiento.
                 drawRoundRect(
                     cornerRadius = CornerRadius(x = 10f, y = 10f),
                     color = color,

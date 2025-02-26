@@ -6,38 +6,38 @@ import com.example.bloclink.model.classes.Company
 val featuredCompanies = listOf(
     Company(
         companyId = "1",
-        companyName = "Construcciones S.A.",
-        description = "Líderes en proyectos residenciales.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Aelca",
+        description = "Desarrollo y gestión de proyectos inmobiliarios.",
+        image = R.drawable.aelca_logo
     ),
     Company(
         companyId = "2",
-        companyName = "TechBuild",
-        description = "Especialistas en tecnología constructiva.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Vía Célere",
+        description = "Especialistas en vivienda sostenible y eficiente.",
+        image = R.drawable.vc_logo
     ),
     Company(
         companyId = "3",
-        companyName = "Nexus",
-        description = "Especialistas en JCC.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Valenor",
+        description = "Promotora especializada en viviendas de lujo.",
+        image = R.drawable.valenor_logo
     ),
     Company(
         companyId = "4",
-        companyName = "Construcciones S.A.",
-        description = "Líderes en proyectos residenciales.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Dake",
+        description = "Especialistas en mobiliario y reformas de cocinas.",
+        image = R.drawable.dake_logo
     ),
     Company(
         companyId = "5",
-        companyName = "TechBuild",
-        description = "Especialistas en tecnología constructiva.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Rehabitec S.L",
+        description = "Expertos en reformas sostenibles de todo tipo.",
+        image = R.drawable.rehabitec_logo
     ),
     Company(
         companyId = "6",
-        companyName = "Nexus",
-        description = "Especialistas en JCC.",
-        image = R.drawable.bloclink_png_logo
+        companyName = "Kvik",
+        description = "Especialistas daneses en baños y tratamientos.",
+        image = R.drawable.kvik_logo
     ),
 )

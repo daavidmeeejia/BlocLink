@@ -1,0 +1,128 @@
+[
+  {
+    "particularId": "1",
+    "particularName": "Paco R.",
+    "description": "Electricista con experiencia.",
+    "category": "Electricidad",
+    "image": "https://cdn.pixabay.com/photo/2016/03/27/19/20/electrician-1281060_960_720.jpg"
+  },
+  {
+    "particularId": "2",
+    "particularName": "Pedro O.",
+    "description": "Especialista en fontanería.",
+    "category": "Fontanería",
+    "image": "https://cdn.pixabay.com/photo/2017/03/28/12/10/plumber-2180337_960_720.jpg"
+  },
+  {
+    "particularId": "3",
+    "particularName": "Armando C.",
+    "description": "Pintor con muy buen historial.",
+    "category": "Pintura",
+    "image": "https://cdn.pixabay.com/photo/2017/09/05/20/02/paint-2713369_960_720.jpg"
+  },
+  {
+    "particularId": "4",
+    "particularName": "Pablo G.",
+    "description": "Alicatador.",
+    "category": "Revestimientos",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/tiler-1839203_960_720.jpg"
+  },
+  {
+    "particularId": "5",
+    "particularName": "Luis V.",
+    "description": "Especialista en mantenimiento de edificios.",
+    "category": "Mantenimiento",
+    "image": "https://cdn.pixabay.com/photo/2016/03/27/19/20/worker-1280978_960_720.jpg"
+  },
+  {
+    "particularId": "6",
+    "particularName": "Carlos M.",
+    "description": "Carpintero experto en muebles a medida.",
+    "category": "Carpintería",
+    "image": "https://cdn.pixabay.com/photo/2017/09/07/08/57/carpenter-2725696_960_720.jpg"
+  },
+  {
+    "particularId": "7",
+    "particularName": "Andrés F.",
+    "description": "Soldador con 10 años de experiencia.",
+    "category": "Soldadura",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/welder-1839208_960_720.jpg"
+  },
+  {
+    "particularId": "8",
+    "particularName": "Javier T.",
+    "description": "Experto en climatización y aire acondicionado.",
+    "category": "Climatización",
+    "image": "https://cdn.pixabay.com/photo/2017/03/28/12/10/air-conditioner-2180382_960_720.jpg"
+  },
+  {
+    "particularId": "9",
+    "particularName": "Raúl E.",
+    "description": "Especialista en instalaciones de gas.",
+    "category": "Gas",
+    "image": "https://cdn.pixabay.com/photo/2016/11/29/09/32/gas-1869825_960_720.jpg"
+  },
+  {
+    "particularId": "10",
+    "particularName": "Miguel A.",
+    "description": "Electricista industrial certificado.",
+    "category": "Electricidad",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/electrician-1839206_960_720.jpg"
+  },
+  {
+    "particularId": "11",
+    "particularName": "David B.",
+    "description": "Pintor profesional para interiores y exteriores.",
+    "category": "Pintura",
+    "image": "https://cdn.pixabay.com/photo/2017/09/07/08/57/painter-2725695_960_720.jpg"
+  },
+  {
+    "particularId": "12",
+    "particularName": "Gonzalo N.",
+    "description": "Especialista en impermeabilización de techos.",
+    "category": "Impermeabilización",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/roofer-1839207_960_720.jpg"
+  },
+  {
+    "particularId": "13",
+    "particularName": "Fernando L.",
+    "description": "Albañil con 15 años de experiencia.",
+    "category": "Albañilería",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/bricklayer-1839209_960_720.jpg"
+  },
+  {
+    "particularId": "14",
+    "particularName": "Esteban R.",
+    "description": "Cerrajero disponible 24/7.",
+    "category": "Cerrajería",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/locksmith-1839210_960_720.jpg"
+  },
+  {
+    "particularId": "15",
+    "particularName": "Victor G.",
+    "description": "Montador de pladur y falsos techos.",
+    "category": "Pladur",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/drywall-1839211_960_720.jpg"
+  },
+  {
+    "particularId": "16",
+    "particularName": "Roberto S.",
+    "description": "Fontanero experto en desatascos y fugas.",
+    "category": "Fontanería",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/plumber-1839212_960_720.jpg"
+  },
+  {
+    "particularId": "17",
+    "particularName": "Manuel C.",
+    "description": "Especialista en estructuras metálicas.",
+    "category": "Estructuras",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/steelworker-1839213_960_720.jpg"
+  },
+  {
+    "particularId": "18",
+    "particularName": "Adrián J.",
+    "description": "Técnico en energías renovables.",
+    "category": "Energías Renovables",
+    "image": "https://cdn.pixabay.com/photo/2016/11/19/14/00/solar-panel-1839214_960_720.jpg"
+  }
+]

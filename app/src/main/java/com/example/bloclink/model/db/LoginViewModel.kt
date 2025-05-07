@@ -13,7 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class LoginViewModel : ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
@@ -77,7 +79,8 @@ class LoginViewModel : ViewModel() {
             userId = userId.toString(),
             name = name,
             surname = surname,
-            email = email
+            email = email,
+            avatar = "profile.png"
         ).toMap()
         FirebaseFirestore.getInstance().collection("users").add(user).addOnSuccessListener {
             Log.d("users", "createUser: Display name ${it.id} created successfully")
@@ -85,6 +88,8 @@ class LoginViewModel : ViewModel() {
             Log.d("users", "createUser: Unexpected error creating user $it")
         }
     }
+
+
 
     fun resetpassword(email: String) {
         if (isValidEmail(email)) {

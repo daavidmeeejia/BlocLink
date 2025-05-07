@@ -20,6 +20,7 @@ import com.example.bloclink.ui.home.HomeScreen
 import com.example.bloclink.ui.login.LoginScreen
 import com.example.bloclink.ui.theme.BlocLinkTheme
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
 class MainActivity : ComponentActivity() {
@@ -37,9 +38,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
 
                 ) {
-                    NavHost(navController = navController, startDestination = "home", builder = {
+                    NavHost(navController = navController, startDestination = "login", builder = {
                         composable("login") {
-                            LoginScreen(navController = navController)
+                            if (FirebaseAuth.getInstance().currentUser?.email.isNullOrBlank()) {
+                                LoginScreen(navController = navController)
+                            } else {
+                                navController.navigate("home")
+                            }
                         }
                         composable("createAccount") {
                             CreateAccountScreen(navController = navController)
@@ -64,4 +69,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

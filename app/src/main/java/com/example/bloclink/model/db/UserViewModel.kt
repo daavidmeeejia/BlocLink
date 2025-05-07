@@ -1,0 +1,73 @@
+package com.example.bloclink.model.db
+
+
+import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.bloclink.model.classes.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+
+
+class UserDataViewModel : ViewModel() {
+    val user = mutableStateOf(User())
+    var state: MutableState<UserState> = mutableStateOf(UserState.Empty)
+
+
+    fun getUser() {
+        viewModelScope.launch {
+            getUserDataFromFirestore()
+        }
+    }
+
+    private suspend fun getUserDataFromFirestore() {
+        val auth = FirebaseAuth.getInstance()
+        val currentuser = auth.currentUser
+        if (currentuser != null) {
+            Log.d("get-user", "Current logged User -> ${currentuser.uid}")
+        }
+        val db = FirebaseFirestore.getInstance()
+        state.value = UserState.Loading
+        try {
+            if (currentuser != null) {
+                val querySnapshot =
+                    db.collection("users").whereEqualTo("userId", currentuser.uid).get()
+                        .await()
+                for (doc in querySnapshot.documents) {
+                    val result = doc.toObject(User::class.java)
+                    Log.d("get-user", "User -> $result")
+                    if (result != null) {
+                        user.value = result
+                        state.value = UserState.Success(user.value)
+                        break
+                    }
+                }
+            } else {
+                Log.d("get-user", "Current User is null")
+            }
+
+        } catch (e: FirebaseFirestoreException) {
+            Log.d("UserInfo", "UserInfo : Error retrieving user data: $e")
+        }
+    }
+
+    suspend fun deleteUser(){
+        val auth = FirebaseAuth.getInstance()
+        val currentuser = auth.currentUser
+        val db = FirebaseFirestore.getInstance()
+        if (currentuser != null) {
+            val snapshot = db.collection("users").whereEqualTo("user_id", currentuser.uid).get().await()
+            for (i in snapshot.documents){
+                i.reference.delete().addOnFailureListener {
+                    Log.e("Delete", "User data delete failed by ${it.message}")
+                }
+            }
+
+        }
+    }
+}

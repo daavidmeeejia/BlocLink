@@ -1,37 +1,42 @@
 package com.example.bloclink.ui
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -39,6 +44,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -54,6 +60,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
@@ -62,10 +69,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.bloclink.R
 import com.example.bloclink.model.classes.Company
+import com.example.bloclink.model.classes.User
+import com.example.bloclink.model.db.UserDataViewModel
+import com.example.bloclink.ui.home.AvatarImage
 import com.example.bloclink.ui.login.darkBlue
 import com.example.bloclink.ui.login.dmsans_extralight
 import com.example.bloclink.ui.login.dmsans_light
 import com.example.bloclink.ui.login.lightBlue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyButtonWithLogo(
@@ -521,7 +533,16 @@ fun MyCheckBox(
 var BLLightGray = Color(0xFFE1E1E1) // Gris claro
 
 @Composable
-fun BlocLinkHeader(navController: NavController) {
+fun BlocLinkHeader(
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope,
+    profiledrawerState: DrawerState,
+    userViewModel: UserDataViewModel,
+    currentUser: User,
+    show: MutableState<Boolean>,
+    drawerStateProfile: DrawerState
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -538,7 +559,8 @@ fun BlocLinkHeader(navController: NavController) {
                 modifier = Modifier
                     .padding(start = 10.dp, top = 20.dp)
             ) {
-                IconButton(onClick = { /* Acción del menú desplegable */ }) {
+                IconButton(onClick = { scope.launch { drawerState.open() } }) {
+
                     Icon(
                         painter = painterResource(id = R.drawable.menu),
                         contentDescription = "Menu",
@@ -558,14 +580,22 @@ fun BlocLinkHeader(navController: NavController) {
                 modifier = Modifier
                     .padding(end = 10.dp, top = 20.dp)
             ) {
-                IconButton(onClick = { /* Acción del menú de perfil */ }) {
-                    Icon(
+                IconButton(onClick = { scope.launch { profiledrawerState.open() }}) {
+                    AvatarImage(
+                        viewModel = userViewModel,
+                        currentuser = currentUser,
+                        show = show,
+                        navController = navController,
+                        profiledrawerState = drawerStateProfile,
+                        size = 26.dp
+                    )
+                    /*Icon(
                         painter = painterResource(id = R.drawable.profile),
                         contentDescription = "User",
                         tint = Color.Unspecified, // Deja ver el color original del ícono.
                         modifier = Modifier
                             .size(26.dp)
-                    )
+                    )*/
                 }
             }
         }

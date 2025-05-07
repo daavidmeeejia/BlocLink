@@ -58,25 +58,47 @@ fun CompanyCard(
 
                     .clip(shape = CircleShape)
             ) {
-                Image(
-                    painter = painterResource(
-                        id =
-                        if (company.image.toString() != "") {
-                            company.image.toString().toInt()
+                if (particular.image.toString() != "") {
+                    /*AsyncImage(
+                        model = particular.image.toString(),
+                        contentDescription = particular.particularName.toString(),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .clip(shape = CircleShape)
+                            .background(color = Color.White),
+                        contentScale = ContentScale.Crop,
+                    )*/
+                    Image(
+                        painter = painterResource(
+                            id = particular.image.toString().toInt(),
+                        ),
+                        contentDescription = if (company.companyName != "") {
+                            company.companyName
                         } else {
-                            particular.image.toString().toInt()
-                        }
-                    ),
-                    contentDescription = if (company.companyName != "") {
-                        company.companyName
-                    } else {
-                        particular.particularName
-                    },
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .clip(shape = CircleShape)
-                        .background(color = Color.White)
-                )
+                            particular.particularName
+                        },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .clip(shape = CircleShape)
+                            .background(color = Color.White)
+                    )
+                } else {
+                    Image(
+                        painter = painterResource(
+                            id = company.image.toString().toInt(),
+                        ),
+                        contentDescription = if (company.companyName != "") {
+                            company.companyName
+                        } else {
+                            particular.particularName
+                        },
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .clip(shape = CircleShape)
+                            .background(color = Color.White)
+                    )
+                }
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))

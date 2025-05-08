@@ -642,7 +642,7 @@ fun SearchTextField(
             singleLine = true,
             placeholder = {
                 Text(
-                    text = "Search something...",
+                    text = "¿Qué estás buscando?",
                     color = Color.Gray,
                     fontFamily = dmsans_light,
                     fontSize = 16.sp,

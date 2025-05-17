@@ -1,61 +1,55 @@
-📱 BlocLink
-BlocLink es una app móvil ideada para transformar la forma en la que los clientes se relacionan con los profesionales del sector de la construcción, reformas y mantenimiento. Esta plataforma actúa como un intermediario digital práctico, transparente y directo, que ofrece herramientas novedosas y un sistema de comprobación profesional que garantiza experiencias de calidad en cada proyecto.
+# 📱 BlocLink
 
-🧩 Descripción del Proyecto
-BlocLink aparece como respuesta a la necesidad existente de digitalizar la relación directa o híbrida entre particulares y empresas/autónomos del sector de la construcción. De forma sencilla, clásica y moderna, así como sus funcionalidades guiadas por la inteligencia artificial (IA), la aplicación permite dejar atrás a los intermediarios típicos. Así, mejora la comunicación, planificación y contratación de los servicios.
+BlocLink es una aplicación móvil destinada a revolucionar el sector de la construcción, reformas y mantenimiento. Actúa como intermediario digital entre clientes y profesionales del sector, facilitando la comunicación, gestión y contratación de servicios desde un entorno intuitivo, moderno y eficiente.
 
-🚀 Funcionalidades Principales
-🔍 Búsqueda Inteligente de Profesionales: Encuentra a todo tipo de expertos del sector rápidamente dependiendo de tu necesidad profesional (pintores, electricistas, reformas integrales, etc.).
+## 📌 Descripción del Proyecto
 
-🧱 Empresas destacadas: Encuentra una sección dedicada a las tarjetas de empresas ya verificadas donde puedes ver su imagen y contactar directamente a la empresa.
+BlocLink conecta a usuarios con empresas y profesionales cualificados en el ámbito de las reformas y construcción. Gracias a funcionalidades como el chat guiado por IA o la visualización previa de reformas mediante realidad aumentada, proporciona una experiencia única, eficaz y moderna tanto para clientes como para trabajadores del sector.
 
-💬 Chat en Tiempo Real: Comunícate directamente con los profesionales a través de un sistema de mensajería integrado y simple.
+## 🚀 Funcionalidades Principales
 
-🧠 Asistente con IA (en desarrollo): Recibe sugerencias de precios, costes de materiales y sugerencias de servicios mediante un chat guiado por IA.
+- 🔐 **Inicio de sesión / Registro de usuarios** mediante autenticación de Firebase.
+- 👷 **Creación de cuentas personalizadas** con nombre, apellidos, email y contraseña.
+- 🏠 **Pantalla principal (Home)** con:
+  - Header personalizado y slogan.
+  - Buscador de empresas o servicios.
+  - Sección de **empresas destacadas** con tarjetas interactivas.
+- 💬 **Chat en tiempo real** con empresas seleccionadas, con mensajes almacenados en Firestore.
+- 📋 **Formulario de contacto** para conectar fácilmente con profesionales.
+- 🔒 Cumplimiento de condiciones de privacidad, cookies y seguridad.
 
-🛠️ Registro e Inicio de Sesión: Regístrate, inicia sesión o recupera tu contraseña de manera fácil con conexión a Firebase.
+## 🔧 Instrucciones de Instalación
 
-📷 Interfaz Gráfica Clara e Intuitiva: Diseño moderno con colores claros y elementos gráficos apropiados para el sector.
+### 📲 Requisitos previos
 
-📥 Instrucciones para descargar e instalar la app
-	Sigue los siguientes pasos para instalar y ejecutar la app BlocLink en tu dispositivo Android:
+- Un dispositivo Android con versión **Android 7.0 (Nougat)** o superior.
+- La **APK de BlocLink** proporcionada por el desarrollador.
 
-✅ Requisitos Previos
-Teléfono Android con versión Android 7.0 (Nougat) o superior.
+### 📥 Pasos para instalar la aplicación
 
-La APK de BlocLink (proporcionada por el desarrollador o descargada desde el repositorio).
+1. Descarga el archivo `.apk` desde el repositorio o medio proporcionado.
+2. Transfiere el archivo a tu móvil (o descárgalo directamente desde el navegador del móvil).
+3. En tu dispositivo Android, ve a:
+   - `Ajustes` > `Aplicaciones y notificaciones` > `Acceso especial de apps`
+   - Selecciona `Instalar aplicaciones desconocidas`
+   - Escoge el navegador o gestor de archivos desde donde instalarás la APK (por ejemplo, Chrome o Archivos)
+   - Activa la opción **“Permitir desde esta fuente”**
+4. Abre el archivo `.apk` y pulsa en **Instalar**.
+5. ¡Listo! Ya puedes abrir BlocLink y empezar a usarlo.
 
-Conexión a Internet para la autenticación y uso de ciertas funcionalidades.
+## 🧠 Tecnologías utilizadas
 
-🔧 Activar la instalación de aplicaciones de origen desconocido
-Abre los ajustes del dispositivo.
+- Jetpack Compose (Interfaz moderna y declarativa en Android)
+- Firebase Authentication (Gestión de usuarios)
+- Firebase Firestore (Base de datos en tiempo real)
+- Kotlin (Lenguaje principal de desarrollo)
+- MVVM (Arquitectura limpia con separación de lógica de UI)
+- Android Studio
 
-Dirígete a Seguridad o Privacidad.
+## 🤝 Contacto
 
-Activa la opción "Fuentes desconocidas" o "Permitir instalación de apps desconocidas".
+Para cualquier sugerencia, incidencia o mejora, puedes contactar con el desarrollador del proyecto a través de GitHub o desde la propia app.
 
-En algunos dispositivos, se debe activar esta opción específicamente para el navegador o gestor de archivos con el que vas a instalar la APK.
+---
 
-📲 Instalar la aplicación
-Descarga el archivo .apk de BlocLink en tu teléfono.
-
-Abre el archivo descargado desde el explorador de archivos.
-
-Pulsa en "Instalar".
-
-Espera a que finalice la instalación.
-
-En algunos dispositivos, cuando se instala se hace un análisis de seguridad.
-
-Una vez instalada, abre la app desde tu menú de aplicaciones.
-
-🧪 Estado del Proyecto
-🔧 En desarrollo (versión beta).
-✅ Funcionalidades disponibles: login, registro, chat, búsqueda, empresas destacadas.
-📌 Próximas mejoras: integración con AR, panel administrativo, pagos in-app.
-
-🤝 Contacto
-¿Tienes sugerencias, preguntas o ideas? ¡Estaré encantado de escucharte!
-
-📧 Email: davidm@bloclink.com
-📱 Proyecto desarrollado como parte del Trabajo de Fin de Grado en Desarrollo de Aplicaciones Multiplataforma.
+BlocLink © 2025 – Todos los derechos reservados.

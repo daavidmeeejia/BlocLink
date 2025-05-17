@@ -23,7 +23,7 @@ BlocLink conecta a los usuarios con empresas y a profesionales capacitados para 
 ### 📲 Requisitos previos
 
 - Un dispositivo Android con versión **Android 7.0 (Nougat)** o superior.
-- La **APK de BlocLink** proporcionada por el desarrollador o recogida del repositorio en el tag Beta_17.05.25.
+- La **APK de BlocLink** proporcionada por el desarrollador o recogida del repositorio en el tag "beta_17.05.25".
 
 ### 📥 Pasos para instalar la aplicación (puede variar según el dispositivo)
 

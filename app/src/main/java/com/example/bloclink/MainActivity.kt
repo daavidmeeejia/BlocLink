@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             val navController = rememberNavController()
-            BlocLinkTheme {
+            BlocLinkTheme (darkTheme = false){
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()

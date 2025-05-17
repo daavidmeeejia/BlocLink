@@ -106,7 +106,7 @@ fun LoginScreen(
                 password = password,
                 onvaluechange = { password = it; failed.value = false },
                 passwordFailed = failed,
-                supportingText = "Email and/or Password are incorrect."
+                supportingText = "Email y/o contraseña incorrectos."
             )
 
             RenovatePasswordButton(sheetState, scope)
@@ -169,7 +169,7 @@ fun LogInButton(
                     viewModel.signIn(email, password, profile = {
                         navController.navigate("home")
                     }, onError = {
-                        Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "Inicio de sesión fallido", Toast.LENGTH_LONG).show()
                         failed.value = true
                     })
                 } else {
@@ -187,7 +187,7 @@ fun LogInButton(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Log in",
+                text = "Iniciar sesión",
                 fontFamily = dmsans_regular,
                 color = Color.White
             )
@@ -204,7 +204,7 @@ fun SocialMediaText() {
             .padding(top = 34.dp)
     ) {
         Text(
-            text = "Continue with social media:",
+            text = "Continuar con redes sociales:",
             fontSize = 14.sp,
             fontFamily = dmsans_regular,
             color = darkBlue,
@@ -235,7 +235,7 @@ fun SocialMediaButtons() {
             MyButtonWithLogo(
                 text = "Google",
                 onClick = {
-                    Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
                 },
                 containerColor = darkBlue,
                 borderColor = darkBlue,
@@ -247,7 +247,7 @@ fun SocialMediaButtons() {
             MyButtonWithLogo(
                 text = "Twitter",
                 onClick = {
-                    Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
                 },
                 containerColor = darkBlue,
                 borderColor = darkBlue,
@@ -288,14 +288,14 @@ fun YouDontHaveAccount(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Don't have an account? ",
+                    text = "¿Aún no tienes cuenta?",
                     fontFamily = dmsans_regular,
                     color = darkBlue,
                     fontSize = 14.sp
                 )
                 MyButton(
                     fontFamily = dmsans_light,
-                    text = "Sign up",
+                    text = "Regístrate",
                     textColor = Color.White,
                     containerColor = lightBlue,
                     borderColor = lightBlue,
@@ -334,7 +334,7 @@ fun RenovatePasswordButton(
                         fontFamily = dmsans_regular
                     )
                 ) {
-                    append("Forgot your password?")
+                    append("¿Olvidaste tu contraseña?")
                     addStringAnnotation(
                         tag = "",
                         annotation = "",
@@ -379,7 +379,7 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
 
                 MyTextField(
                     error = error,
-                    supportingText = "Please enter your email",
+                    supportingText = "Introduce tu email.",
                     data = email,
                     label = "Email",
                     onvaluechange = { email = it; error = false }
@@ -394,12 +394,12 @@ fun RenovatePasswordSheet(sheetState: SheetState, scope: CoroutineScope) {
             ) {
                 MyButton(
                     fontFamily = dmsans_light,
-                    text = "Send new password",
+                    text = "Enviar nueva contraseña",
                     textColor = Color.White,
                     containerColor = lightBlue,
                     borderColor = lightBlue,
                     onClick = {
-                        Toast.makeText(context, "Coming soon", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show()
                         if (!isValidEmail(email)) {
                             error = true
                         }

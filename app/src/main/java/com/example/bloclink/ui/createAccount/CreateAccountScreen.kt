@@ -97,10 +97,10 @@ fun CreateAccountScreen(
 
                 if (emailFailed.value){
                     if(sameEmail.value){
-                        emailSupportingText.value = "Email already in use."
+                        emailSupportingText.value = "El email ya está en uso."
                     }
                     else{
-                        emailSupportingText.value = "Please enter a valid email address."
+                        emailSupportingText.value = "Introduce un email válido."
                     }
                 }
 
@@ -115,7 +115,7 @@ fun CreateAccountScreen(
                     password = password,
                     passwordFailed = passwordFailed,
                     onvaluechange = { password = it; passwordFailed.value = false },
-                    supportingText = "Password must be at least 6 characters long."
+                    supportingText = "La contraseña debe tener al menos 6 caracteres."
                 )
 
                 ConfirmPassword(
@@ -147,7 +147,7 @@ fun CreateAccountScreen(
                         if (!acceptCookies.value) {
                             acceptCookiesFailed.value = true
                         }
-                        if (!emailFailed.value && !passwordFailed.value && !confirmPasswordFailed && !acceptPrivacyPolicyFailed.value && !acceptCookiesFailed.value) {
+                        if (!nameFailed && !surnameFailed && !emailFailed.value && !passwordFailed.value && !confirmPasswordFailed && !acceptPrivacyPolicyFailed.value && !acceptCookiesFailed.value) {
                             viewModel.createUserAccount(
                                 name = name,
                                 surname = surname,
@@ -164,10 +164,10 @@ fun CreateAccountScreen(
                         }
                         if (emailFailed.value){
                             if(sameEmail.value){
-                                emailSupportingText.value = "Email already in use."
+                                emailSupportingText.value = "El email ya está en uso."
                             }
                             else{
-                                emailSupportingText.value = "Please enter a valid email address."
+                                emailSupportingText.value = "Introduce un email válido."
                             }
                         }
                     },
@@ -199,7 +199,7 @@ fun CreateAccountText() {
             .padding(bottom = 30.dp)
     ) {
         Text(
-            text = "Create an account",
+            text = "Crear cuenta",
             fontSize = 24.sp,
             fontFamily = dmsans_regular,
         )
@@ -215,9 +215,9 @@ fun NameTextField(name: String, onvaluechange: (String) -> Unit, nameError: Bool
     ) {
         MyTextField(
             error = nameError,
-            supportingText = "Please enter a valid name.",
+            supportingText = "Introduce un nombre válido.",
             data = name,
-            label = "Name",
+            label = "Nombre",
             onvaluechange = onvaluechange
         )
     }
@@ -233,9 +233,9 @@ fun SurnameTextField(surname: String, onvaluechange: (String) -> Unit, surnameEr
     ) {
         MyTextField(
             error = surnameError,
-            supportingText = "Please enter a valid surname.",
+            supportingText = "Introduce un apellido válido.",
             data = surname,
-            label = "Surname",
+            label = "Apellido",
             onvaluechange = onvaluechange
         )
     }
@@ -264,9 +264,9 @@ fun TermsAndConditionsCheckBox(
             MyCheckBox(
                 checked = acceptPrivacyPolicy,
                 onCheckedChange = onvaluechange_privacy,
-                label = "I acknowledge that I have read and agree to the Privacy Policy, Terms and Conditions.",
+                label = "He leído y acepto la política de privacidad y los términos y condiciones.",
                 error = acceptPrivacyPolicyFailed,
-                errortext = "Please check"
+                errortext = "Este campo es obligatorio."
             )
         }
         Box(    // Box que contiene el segundo CheckBox (Cookies).
@@ -277,9 +277,9 @@ fun TermsAndConditionsCheckBox(
             MyCheckBox(
                 checked = acceptCookies,
                 onCheckedChange = onvaluechange_cookies,
-                label = "I consent to the use of cookies for enhancing my experience, as described in the policy.",
+                label = "Acepto y consiento el uso y tratamiento de las cookies necesarias para el correcto funcionamiento de la aplicación.",
                 error = acceptCookiesFailed,
-                errortext = "Please check"
+                errortext = "Este campo es obligatorio."
             )
         }
         Box(    // Botón de crear cuenta.
@@ -289,7 +289,7 @@ fun TermsAndConditionsCheckBox(
         ) {
             MyButton(
                 fontFamily = dmsans_light,
-                text = "Create account",
+                text = "Crear cuenta",
                 textColor = Color.White,
                 containerColor = lightBlue,
                 borderColor = lightBlue,
@@ -304,10 +304,12 @@ fun TermsAndConditionsCheckBox(
 
 fun isValidEmail(email: String): Boolean {
     val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
+    //Esta expresion regular indica que la cadena debe tener un formato de correo electrónico válido.
     return email.matches(emailRegex)
 }
 
 fun isValidNoun(noun: String): Boolean {
-    val nounRegex = "^[A-Za-z]+$".toRegex()
+    val nounRegex = "^[A-Za-zÁÉÍÓÚÜáéíóúüÑñ\\s\\-]+$".toRegex()
+    //Esta expresion regular indica que en la cadena solo pueden haber letras mayúsculas y minúsculas, espacios, guiones y comas.
     return noun.matches(nounRegex)
 }

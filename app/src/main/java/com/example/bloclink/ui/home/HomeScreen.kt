@@ -3,6 +3,7 @@ package com.example.bloclink.ui.home
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -102,6 +103,7 @@ fun HomeScreen(
     viewmodel: ParticularViewModel = ParticularViewModel(context = LocalContext.current),
     userViewModel: UserDataViewModel = viewModel()
 ) {
+    val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val drawerStateProfile = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -130,22 +132,22 @@ fun HomeScreen(
 
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { /* Acción para Opción 1 */ }) {
+                        onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                         Text("Galería", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                     }
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { /* Acción para Opción 2 */ }) {
+                        onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                         Text("Cámara", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                     }
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { /* Acción para Opción 3 */ }) {
+                        onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                         Text("ChatBot", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                     }
                     TextButton(
                         modifier = Modifier.fillMaxWidth(),
-                        onClick = { /* Acción para Opción 2 */ }) {
+                        onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                         Text("Ayuda", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                     }
                     Spacer(modifier = Modifier.fillMaxHeight(0.78f))
@@ -227,13 +229,13 @@ fun HomeScreen(
 
                             TextButton(
                                 modifier = Modifier.fillMaxWidth(),
-                                onClick = { /* Acción para Opción 1 */ }) {
+                                onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                                 Text("Facturas", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                             }
-                            TextButton(onClick = { /* Acción para Opción 2 */ }) {
+                            TextButton(onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                                 Text("Métodos de pago", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                             }
-                            TextButton(onClick = { /* Acción para Opción 3 */ }) {
+                            TextButton(onClick = { Toast.makeText(context, "En desarrollo", Toast.LENGTH_SHORT).show() }) {
                                 Text("Proyectos", fontSize = 20.sp, fontFamily = dmsans_light, modifier = Modifier.padding(vertical = 20.dp))
                             }
                             Spacer(modifier = Modifier.fillMaxHeight(0.67f))

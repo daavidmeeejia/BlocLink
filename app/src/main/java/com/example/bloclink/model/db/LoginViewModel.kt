@@ -80,7 +80,7 @@ class LoginViewModel : ViewModel() {
             name = name,
             surname = surname,
             email = email,
-            avatar = "profile.png"
+            avatar = "avatars/profile.png"
         ).toMap()
         FirebaseFirestore.getInstance().collection("users").add(user).addOnSuccessListener {
             Log.d("users", "createUser: Display name ${it.id} created successfully")

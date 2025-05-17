@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="BlocLink PNG Logo.png">
+  <title>BlocLink - Conecta con Profesionales de la Construcción</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primario: #2a76da;
+      --color-secundario: #0074d9;
+      --color-fondo: #b6b8ba;
+      --color-acento: #009dff;
+      --color-claro: #f0f8ff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      background: linear-gradient(to bottom right, var(--color-fondo), #ffffff);
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: linear-gradient(to right, var(--color-primario), var(--color-secundario));
+      color: white;
+      padding: 3rem 1rem 2rem;
+      text-align: center;
+      position: relative;
+    }
+    header img {
+      width: 120px;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1.3rem;
+      opacity: 0.95;
+    }
+    main {
+      flex: 1;
+      padding: 2rem 1rem;
+    }
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in;
+    }
+    section h2 {
+      color: var(--color-primario);
+      margin-bottom: 1rem;
+    }
+    section ul {
+      padding-left: 1.5rem;
+    }
+    .cta {
+      background-color: var(--color-primario);
+      color: white;
+      padding: 1rem 2rem;
+      display: inline-block;
+      margin: 2rem auto 0;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1.5s ease-in;
+    }
+    .cta:hover {
+      background-color: #00337a;
+    }
+    .cta-container {
+      text-align: center;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background-color: var(--color-claro);
+      font-size: 0.9rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="BlocLink PNG Logo.png" alt="BlocLink logo">
+    <p>"Conexiones virtuales, resultados reales"</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>¿Qué es BlocLink?</h2>
+      <p>BlocLink es una aplicación que conecta a clientes con empresas y autónomos del sector de la construcción para facilitar la contratación de servicios. Diseñada para agilizar procesos, mejorar la transparencia y asegurar un trabajo de calidad.</p>
+    </section>
+
+    <section>
+      <h2>Características principales</h2>
+      <ul>
+        <li>Registro y perfil para clientes y profesionales</li>
+        <li>Publicación y solicitud de presupuestos</li>
+        <li>Valoraciones y opiniones de los usuarios</li>
+        <li>Filtro por categoría, localización y disponibilidad</li>
+        <li>Chat integrado entre cliente y profesional</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Descarga y próximamente</h2>
+      <p>Actualmente en desarrollo para Android. Muy pronto disponible en Google Play.</p>
+      <div class="cta-container">
+        <a class="cta" href="https://github.com/daavidmeeejia/BlocLink">Ver prototipo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 BlocLink. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>

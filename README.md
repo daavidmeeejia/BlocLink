@@ -1,10 +1,10 @@
 # 📱 BlocLink
 
-BlocLink es una aplicación móvil destinada a revolucionar el sector de la construcción, reformas y mantenimiento. Actúa como intermediario digital entre clientes y profesionales del sector, facilitando la comunicación, gestión y contratación de servicios desde un entorno intuitivo, moderno y eficiente.
+BlocLink es una App que quiere revolucionar un sector como el de la construcción, reformas o mantenimiento. Es una app que hace de intermediaria digital entre clientes y profesionales del sector, ayudando a la gestión, la comunicación y la contratación de los servicios, dentro de un espacio moderno, intuitivo y eficiente.
 
 ## 📌 Descripción del Proyecto
 
-BlocLink conecta a usuarios con empresas y profesionales cualificados en el ámbito de las reformas y construcción. Gracias a funcionalidades como el chat guiado por IA o la visualización previa de reformas mediante realidad aumentada, proporciona una experiencia única, eficaz y moderna tanto para clientes como para trabajadores del sector.
+BlocLink conecta a los usuarios con empresas y a profesionales capacitados para hacer tareas de reformas y trabajos de construcción de una manera única, eficaz y moderna. Entre muchas otras funcionalidades, gracias al chat guiado por IA o visualizaciones previas de reformas mediante realidad aumentada, los usuarios obtienen una experiencia única, efectiva y moderna. Tanto los clientes como los trabajadores del sector se están ayudando a través de la app.
 
 ## 🚀 Funcionalidades Principales
 
